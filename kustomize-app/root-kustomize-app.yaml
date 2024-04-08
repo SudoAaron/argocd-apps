@@ -1,0 +1,35 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: kustomize-apps-local
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io # Removes resources when deleted
+spec:
+  generators:
+  - list:
+      elements:
+      - cluster: local
+        url: https://kubernetes.default.svc
+  template:
+    metadata:
+      name: 'kustomize-apps-{{cluster}}'
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/SudoAaron/argocd-apps.git
+        targetRevision: HEAD
+        path: kustomize-app/environments/{{cluster}}/kustomize-app
+      destination:
+        server: https://kubernetes.default.svc
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+          allowEmpty: false
+        syncOptions:
+          - Validate=true
+          - CreateNamespace=false
+          - PrunePropagationPolicy=foreground
+          - PruneLast=true

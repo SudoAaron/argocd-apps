@@ -2,10 +2,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx
-  namespace: nginx-app
-  labels:
-    app: nginx
+  name: kustomize-app
 spec:
   replicas: 1
   selector:
@@ -19,6 +16,6 @@ spec:
       containers:
         - name: nginx
           imagePullPolicy: Always
-          image: amwilliams/nginx:v0.1.3
+          image: amwilliams/nginx
           ports:
             - containerPort: 80
