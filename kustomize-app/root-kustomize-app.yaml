@@ -4,8 +4,8 @@ kind: ApplicationSet
 metadata:
   name: kustomize-apps-local
   namespace: argocd
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io # Removes resources when deleted
+  annotations:
+    argocd.argoproj.io/application-set-refresh: "true"
 spec:
   generators:
   - list:

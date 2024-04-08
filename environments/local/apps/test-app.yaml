@@ -5,7 +5,7 @@ metadata:
   name: test-app
   namespace: argocd
   finalizers:
-    - resources-finalizer.argocd.argoproj.i # Removes resources when deleted
+    - resources-finalizer.argocd.argoproj.io # Removes resources when deleted
 spec:
   project: default
   source:
