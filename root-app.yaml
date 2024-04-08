@@ -1,16 +1,26 @@
+---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: root-app
   namespace: argocd
   finalizers:
-  - resources-finalizer.argocd.argoproj.io
+    - resources-finalizer.argocd.argoproj.i # Removes resources when deleted
 spec:
-  destination:
-    server: "https://kubernetes.default.svc"
-    namespace: argocd
   project: default
   source:
-    path: apps
-    repoURL: https://github.com/SudoAaron/argocd-apps
+    repoURL: https://github.com/SudoAaron/argocd-apps.git
     targetRevision: HEAD
+    path: environments/staging/apps
+  destination:
+    server: https://kubernetes.default.svc
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+      allowEmpty: false
+    syncOptions:
+      - Validate=true
+      - CreateNamespace=false
+      - PrunePropagationPolicy=foreground
+      - PruneLast=true
