@@ -1,7 +1,0 @@
----
-namespace: local
-images:
-  - name: amwilliams/nginx
-    newTag: v0.1.0
-resources:
-  - ../../../base
